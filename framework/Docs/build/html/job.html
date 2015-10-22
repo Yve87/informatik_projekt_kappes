@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>job &mdash; DeapBatch 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="DeapBatch 1.0 documentation" href="index.html" />
+    <link rel="next" title="results" href="results.html" />
+    <link rel="prev" title="Running a Job" href="runningJob.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-job">
+<span id="job"></span><h1>job<a class="headerlink" href="#module-job" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="job.BatchJob">
+<em class="property">class </em><code class="descclassname">job.</code><code class="descname">BatchJob</code><span class="sig-paren">(</span><em>jobs</em>, <em>processes</em><span class="sig-paren">)</span><a class="headerlink" href="#job.BatchJob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs many jobs concurrently.</p>
+<dl class="method">
+<dt id="job.BatchJob.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#job.BatchJob.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs all the Job objects concurently on the set number of processes.
+This is a syncronous call.</p>
+<p>Returns a list of JobResult objects returned by the jobs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.BatchJob.run_async">
+<code class="descname">run_async</code><span class="sig-paren">(</span><em>callback</em><span class="sig-paren">)</span><a class="headerlink" href="#job.BatchJob.run_async" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs all the Job objects concurently on the set number of processes.
+This is an asyncronous call.
+:param callback: the callback function called when all the Job objects finished running. Prototype:</p>
+<blockquote>
+<div>def callback(resultList).
+resultList is a list of JobResult objects returned by the jobs.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eachCallback</strong> &#8211; callback function called after each job is run</td>
+</tr>
+</tbody>
+</table>
+<p>returns the multiprocessing.Pool object used to run the batch. Use this if the ablitity to preemptively terminate the processes is necessary (pool.terminate()).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.BatchJob.run_async_ind">
+<code class="descname">run_async_ind</code><span class="sig-paren">(</span><em>eachCallback</em><span class="sig-paren">)</span><a class="headerlink" href="#job.BatchJob.run_async_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs all the Job objects concurently on the set number of processes. This is an asyncronous call that allows the results to be returned one by one.
+:param eachCallback: callback function called after each job is run. Format: eachCallback(jobResult), where jobResult is the returned JobResult object</p>
+<p>returns nothing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.BatchJob.terminate">
+<code class="descname">terminate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#job.BatchJob.terminate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="job.Job">
+<em class="property">class </em><code class="descclassname">job.</code><code class="descname">Job</code><span class="sig-paren">(</span><em>jobTempate</em>, <em>**execParams</em><span class="sig-paren">)</span><a class="headerlink" href="#job.Job" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Job is a container for a set of execution paramaters to be used on a JobTemplate. A Job can only be run once. Used by BatchJob to execute multiple Jobs concurrently.</p>
+<dl class="method">
+<dt id="job.Job.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#job.Job.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the job template makerFunction with the set job execParams.
+Raises an exception if attempted to run more than once.</p>
+<p>execParam: &#8220;number_of_runs&#8221;: the number of times this job should be run. The logbook from all the runs will be averaged. If more than one run is used, the JobResult.result will contain a list containing all the individualy returned job results.</p>
+<p>Returns a JobResult which contains a reference to this Job and the results of the run.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="job.JobCreator">
+<em class="property">class </em><code class="descclassname">job.</code><code class="descname">JobCreator</code><a class="headerlink" href="#job.JobCreator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a batch of jobs with given paramaters.</p>
+<dl class="method">
+<dt id="job.JobCreator.addRange">
+<code class="descname">addRange</code><span class="sig-paren">(</span><em>paramName</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobCreator.addRange" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Adds a range of values to the parameters list</dt>
+<dd><p class="first">There are two methods of adding paramaters triggered based on whether &#8216;steps&#8217; or &#8216;stepSize&#8217; is defined.</p>
+<p>&#8216;steps&#8217; will create the specified amount of items evenly divided between the start and end. Inclusive of both.
+&#8216;stepSize&#8217; will add iterations with differences of size &#8216;stepSize&#8217;. Inclusive of start and end.</p>
+<dl class="docutils">
+<dt>Examples:</dt>
+<dd><ol class="first last arabic">
+<li><dl class="first docutils">
+<dt>jobCreator.addRange(&#8216;mutpx&#8217;, start=0.1, end=0.4, steps=4)</dt>
+<dd><p class="first last">-&gt; will create paramaters with values [0.1, 0.2, 0.3, 0.4]</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>jobCreator.addRange(&#8216;mutpx&#8217;, start=0.1, end=0.4, stepSize=0.1)</dt>
+<dd><p class="first last">-&gt; will create paramaters with values [0.1, 0.2, 0.3, 0.4]
+TODO:inclusive/exclusive</p>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+<p class="last">Returns the set of paramaters added</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.JobCreator.addSpecific">
+<code class="descname">addSpecific</code><span class="sig-paren">(</span><em>paramName</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobCreator.addSpecific" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Adds a specific set of values to the evaluation list</dt>
+<dd>Example:
+jobCreator.addSpecific(&#8216;mutpx&#8217;, 0.1, 0.125, 0.3)
+-&gt; will create paramaters with values [0.1, 0.125, 0.3]</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.JobCreator.addStatic">
+<code class="descname">addStatic</code><span class="sig-paren">(</span><em>paramName</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobCreator.addStatic" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Adds a single value to the evaluation list. A static paramater is a paramater that remains the same accross all jobs. Setting values like this will not add to the total number of jobs.</dt>
+<dd>Calling addStatic() with a paramName the same as an already added one will overwrite the previously added one.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.JobCreator.calcNumJobs">
+<code class="descname">calcNumJobs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#job.JobCreator.calcNumJobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calulates how many Jobs would be produced if generateJobs() is called</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.JobCreator.generateJobs">
+<code class="descname">generateJobs</code><span class="sig-paren">(</span><em>jobTemplate</em>, <em>addIds=True</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobCreator.generateJobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a list of Job objects with paramaters covering all possible combinatins of the given JobCreator paramaters.
+Be careful here as the number of jobs is a factor of all the param counts added. Check calcNumJobs() to see how many jobs would be produced.</p>
+<blockquote>
+<div>Returns the list of Jobs. The list can be used by a BatchJob instanct to run all teh jobs.</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="job.JobResult">
+<em class="property">class </em><code class="descclassname">job.</code><code class="descname">JobResult</code><span class="sig-paren">(</span><em>job</em>, <em>logbook</em>, <em>result</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains run information about a Job. Returned by Job.run()
+job -&gt; reference to the original job
+logbook -&gt; the Deap.tools.Logbook() object representing the results
+result -&gt; an object containing any extra information needed</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="job.JobTemplate">
+<em class="property">class </em><code class="descclassname">job.</code><code class="descname">JobTemplate</code><span class="sig-paren">(</span><em>makerFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>JobTemplate is a wrapper for a given delegate function named the makerFunction. When run by a job, the makerfunction is called with the jobs specific execParams as paramaters.
+Also contains defaults for values that are not set by the Job instance.</p>
+<p>The default for &#8220;number_of_runs&#8221; is automatically set to 1</p>
+<dl class="method">
+<dt id="job.JobTemplate.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobTemplate.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes the makerFunction with the given paramaters. Sets the given paramaters with precidence over the defaults</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.JobTemplate.setDefaults">
+<code class="descname">setDefaults</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobTemplate.setDefaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the default paramater values to set if they are not specified by the executing Job&#8217;s execParams. Params set by the job have higher precedence over default paramaters and therefore, if set, will override default paramater values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="job.JobTemplate.setMakerFunction">
+<code class="descname">setMakerFunction</code><span class="sig-paren">(</span><em>makerFunction</em><span class="sig-paren">)</span><a class="headerlink" href="#job.JobTemplate.setMakerFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the Maker function for this JobTemplate. When run by a job, the makerfunction is called with the jobs specific execParams as paramaters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>makerFunction</strong> &#8211; The function called on Job.run()</td>
+</tr>
+</tbody>
+</table>
+<p>The maker function must have the following function prototype:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>def someJobFunction(<a href="#id1"><span class="problematic" id="id2">**</span></a>params):</dt>
+<dd>...
+return (logbook, results)</dd>
+</dl>
+</div></blockquote>
+<p>The function must return a tuple, where &#8216;logbook&#8217; is the final Deap.tools.LogBook for the data obtained in the function and &#8216;results&#8217; is any object which might be used by the user externally.</p>
+<p>When the Job is executed with Job.run(), the (logbook, result) tuple is put into the JobResult object returned by the Job.</p>
+<dl class="docutils">
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a><a href="#id5"><span class="problematic" id="id6">*</span></a>Important:</dt>
+<dd>The makerFunction passed into this function must be picklable if it is to be used by BatchJob.
+Defining the makerFunction in the global scope will usually ensure it is picklable (unless it has some wierd references).</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="job.KeyboardInterruptError">
+<em class="property">exception </em><code class="descclassname">job.</code><code class="descname">KeyboardInterruptError</code><a class="headerlink" href="#job.KeyboardInterruptError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p># Empty keyboard interrupt error is required for BatchJob multiprocessing interuptions. For some reason python does not handle regular KeyboardInterrupt as expected.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="runningJob.html" title="previous chapter">Running a Job</a></li>
+      <li>Next: <a href="results.html" title="next chapter">results</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/job.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Damian Polan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/job.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

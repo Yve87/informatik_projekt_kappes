@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>display &mdash; DeapBatch 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="DeapBatch 1.0 documentation" href="index.html" />
+    <link rel="prev" title="results" href="results.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-display">
+<span id="display"></span><h1>display<a class="headerlink" href="#module-display" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="display.Plotter">
+<em class="property">class </em><code class="descclassname">display.</code><code class="descname">Plotter</code><span class="sig-paren">(</span><em>isIon=False</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays specific GA plots with matplotlib.</p>
+<p>Imortant note: proper <a href="#id1"><span class="problematic" id="id2">**</span></a>otherFixedParams must be passed in or the plot will have spooky results</p>
+<p>Line styles:
+&#8216;&#8217;, &#8216; &#8216;, &#8216;None&#8217;, &#8216;&#8211;&#8217;, &#8216;-.&#8217;, &#8216;-&#8216;, &#8216;:&#8217;</p>
+<p>Possible Options:
+xAxis - name of the column to use for the xAxis
+yAxis - name of the column to use for the xAxis
+zAxis - name of the column to use for the yAxis</p>
+<p>xLabel
+yLabel
+zLabel</p>
+<p>xLimit
+yLimit
+zLimit</p>
+<dl class="class">
+<dt id="display.Plotter.Templates">
+<em class="property">class </em><code class="descname">Templates</code><a class="headerlink" href="#display.Plotter.Templates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Static class containing templates for different GA plots.</p>
+<dl class="staticmethod">
+<dt id="display.Plotter.Templates.plot_2D_Fit_vs_Gen_MinMaxAvg">
+<em class="property">static </em><code class="descname">plot_2D_Fit_vs_Gen_MinMaxAvg</code><span class="sig-paren">(</span><em>filter</em>, <em>show=False</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.Templates.plot_2D_Fit_vs_Gen_MinMaxAvg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="display.Plotter.Templates.plot_2D_Fit_vs_Gen__MultiCxpb">
+<em class="property">static </em><code class="descname">plot_2D_Fit_vs_Gen__MultiCxpb</code><span class="sig-paren">(</span><em>filter</em>, <em>everyNth=1</em>, <em>show=False</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.Templates.plot_2D_Fit_vs_Gen__MultiCxpb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="display.Plotter.Templates.plot_2D_Fit_vs_Gen__MultiMutpb">
+<em class="property">static </em><code class="descname">plot_2D_Fit_vs_Gen__MultiMutpb</code><span class="sig-paren">(</span><em>filter</em>, <em>everyNth=1</em>, <em>show=False</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.Templates.plot_2D_Fit_vs_Gen__MultiMutpb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="display.Plotter.Templates.plot_3D_Mutpb_Cxpb">
+<em class="property">static </em><code class="descname">plot_3D_Mutpb_Cxpb</code><span class="sig-paren">(</span><em>filter</em>, <em>useGeneration</em>, <em>show=False</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.Templates.plot_3D_Mutpb_Cxpb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.addLegend">
+<code class="descclassname">Plotter.</code><code class="descname">addLegend</code><span class="sig-paren">(</span><em>legendArray</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.addLegend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a legend to the current plot matching the given legendArray.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>legendArray</strong> &#8211; array of line names</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.add_Colorbar">
+<code class="descclassname">Plotter.</code><code class="descname">add_Colorbar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.add_Colorbar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds colorbar legend for a heatmap
+Only works after add_Heatmap is called</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.add_Heatmap">
+<code class="descclassname">Plotter.</code><code class="descname">add_Heatmap</code><span class="sig-paren">(</span><em>filter</em>, <em>**options</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.add_Heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a heatmap to the XY axis plane of the current 3D plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filter</strong> &#8211; column object</li>
+<li><strong>xAxis</strong> &#8211; the name of the column to use for the x axis</li>
+<li><strong>yAxis</strong> &#8211; the name of the column to use for the y axis</li>
+<li><strong>zAxis</strong> &#8211; the name of the column to use for the z axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note: doesn&#8217;t work as expected with realtime update.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.add_nevalsLabel">
+<code class="descclassname">Plotter.</code><code class="descname">add_nevalsLabel</code><span class="sig-paren">(</span><em>filter</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.add_nevalsLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the filter for the &#8220;result_nevals&#8221; column and sums all the values to get the total nevals.
+Filter must contain &#8220;result_nevals&#8221; column.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.add_numberOfRunsLabel">
+<code class="descclassname">Plotter.</code><code class="descname">add_numberOfRunsLabel</code><span class="sig-paren">(</span><em>numbRuns</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.add_numberOfRunsLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a number_of_runs label to the plot.
+:param numbRuns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.clearAx">
+<code class="descclassname">Plotter.</code><code class="descname">clearAx</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.clearAx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.draw">
+<code class="descclassname">Plotter.</code><code class="descname">draw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use with ion() mode. Draws the plot to the graph view.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.ion">
+<code class="descclassname">Plotter.</code><code class="descname">ion</code><span class="sig-paren">(</span><em>onOff</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.ion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns interactive mode on or off.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="display.Plotter.lineColors">
+<code class="descclassname">Plotter.</code><code class="descname">lineColors</code><em class="property"> = ['b', 'g', 'r', 'm', 'y', 'c']</em><a class="headerlink" href="#display.Plotter.lineColors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="display.Plotter.lineColors_cycle">
+<code class="descclassname">Plotter.</code><code class="descname">lineColors_cycle</code><em class="property"> = &lt;itertools.cycle object&gt;</em><a class="headerlink" href="#display.Plotter.lineColors_cycle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="display.Plotter.lineStyles">
+<code class="descclassname">Plotter.</code><code class="descname">lineStyles</code><em class="property"> = ['-', '--', '-.', ':']</em><a class="headerlink" href="#display.Plotter.lineStyles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="display.Plotter.lineStyles_cycle">
+<code class="descclassname">Plotter.</code><code class="descname">lineStyles_cycle</code><em class="property"> = &lt;itertools.cycle object&gt;</em><a class="headerlink" href="#display.Plotter.lineStyles_cycle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="display.Plotter.markerStyles">
+<code class="descclassname">Plotter.</code><code class="descname">markerStyles</code><em class="property"> = ['o', 'v', '^', '3', '8', 's', '*', '+']</em><a class="headerlink" href="#display.Plotter.markerStyles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="display.Plotter.markerStyles_cycle">
+<code class="descclassname">Plotter.</code><code class="descname">markerStyles_cycle</code><em class="property"> = &lt;itertools.cycle object&gt;</em><a class="headerlink" href="#display.Plotter.markerStyles_cycle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.plot_2D">
+<code class="descclassname">Plotter.</code><code class="descname">plot_2D</code><span class="sig-paren">(</span><em>filter</em>, <em>**options</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.plot_2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D plot against two axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body">colLine:</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lineStyle</strong> &#8211; </td>
+</tr>
+</tbody>
+</table>
+<p>Returns the drawing axis</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.plot_3D">
+<code class="descclassname">Plotter.</code><code class="descname">plot_3D</code><span class="sig-paren">(</span><em>filter</em>, <em>**options</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.plot_3D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a 3D graph with the given filter. Filter must contain exactly 3 columns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filter</strong> &#8211; column object</li>
+<li><strong>xAxis</strong> &#8211; the name of the column to use for the x axis</li>
+<li><strong>yAxis</strong> &#8211; the name of the column to use for the y axis</li>
+<li><strong>zAxis</strong> &#8211; the name of the column to use for the z axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.plot_3D_Wireframe">
+<code class="descclassname">Plotter.</code><code class="descname">plot_3D_Wireframe</code><span class="sig-paren">(</span><em>filter</em>, <em>**options</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.plot_3D_Wireframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a 3D wireframe graph with the given filter. Filter must contain exactly 3 columns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filter</strong> &#8211; column object</li>
+<li><strong>xAxis</strong> &#8211; the name of the column to use for the x axis</li>
+<li><strong>yAxis</strong> &#8211; the name of the column to use for the y axis</li>
+<li><strong>zAxis</strong> &#8211; the name of the column to use for the z axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="display.Plotter.saveFigure">
+<em class="property">static </em><code class="descclassname">Plotter.</code><code class="descname">saveFigure</code><span class="sig-paren">(</span><em>filePath</em>, <em>figure</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.saveFigure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the given figure. Extension of the filePath will define the file type.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="display.Plotter.savePDF">
+<em class="property">static </em><code class="descclassname">Plotter.</code><code class="descname">savePDF</code><span class="sig-paren">(</span><em>filePath</em>, <em>figure</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.savePDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the given figure as a PDF file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.setAxisLabels">
+<code class="descclassname">Plotter.</code><code class="descname">setAxisLabels</code><span class="sig-paren">(</span><em>xLabel=''</em>, <em>yLabel=''</em>, <em>zLabel=''</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.setAxisLabels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the axis labels for the current working plot.
+:param xLabel: x axis label
+:param yLabel: y axis label
+:param zLabel: z axis label</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.setAxisLimits">
+<code class="descclassname">Plotter.</code><code class="descname">setAxisLimits</code><span class="sig-paren">(</span><em>**options</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.setAxisLimits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the axis limits for the current working plot. Usefull for a realtime updated plot.
+:param xLim: x axis limit. Example xLim=[0,1]
+:param yLim: y axis limit. Example yLim=[2,1000]
+:param zLim: z axis limit. Example zLim=[0,100]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.setGrid">
+<code class="descclassname">Plotter.</code><code class="descname">setGrid</code><span class="sig-paren">(</span><em>onOff</em><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.setGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns the grid on or off.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="display.Plotter.show">
+<code class="descclassname">Plotter.</code><code class="descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#display.Plotter.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows the plot (blocking).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="results.html" title="previous chapter">results</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/display.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Damian Polan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/display.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

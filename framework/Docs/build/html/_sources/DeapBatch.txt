@@ -1,0 +1,35 @@
+DeapBatch package
+=================
+
+display
+------------------------
+
+.. automodule:: display
+.. autoclass:: Plotter
+    :undoc-members:
+    :show-inheritance:
+    :members:
+
+job
+--------------------
+
+.. automodule:: job
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+results
+------------------------
+
+.. automodule:: results
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+util
+---------------------
+
+.. automodule:: util
+    :members:
+    :undoc-members:
+    :show-inheritance:
