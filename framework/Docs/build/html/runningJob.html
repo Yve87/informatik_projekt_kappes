@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running a Job &mdash; DeapBatch 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="DeapBatch 1.0 documentation" href="index.html" />
+    <link rel="next" title="Running a Job" href="runningManyJobs.html" />
+    <link rel="prev" title="Welcome to DeapBatch’s documentation!" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="running-a-job">
+<h1>Running a Job<a class="headerlink" href="#running-a-job" title="Permalink to this headline">¶</a></h1>
+<p>A Job is a container for a set of execution paramaters to be used with a JobTemplate. A Job can only be run once. Used by BatchJob to execute multiple Jobs concurrently.</p>
+<p>Each Job created must have an associated JobTemplate object. A JobTemplate is a wrapper for a given delegate function named the makerFunction. When run by a job, the makerfunction is called with the jobs specific execParams as paramaters.</p>
+<p>The makerfunction must follow the following prototype:</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="k">def</span> <span class="nf">someJobFunction</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">logbook</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For Deap compatability, the output of the makerfunction is a tuple containing a deap.tools.Logbook() object as the first entry and any object as the second entry. The logbook is later used by tools in the display and results modules and should be not-null. The results object can be set as any result values that are needed after the job is complete. Results can be null.</p>
+<dl class="docutils">
+<dt>Important:</dt>
+<dd><ul class="first last simple">
+<li>The makerFunction must be picklable if it is to be used by BatchJob.</li>
+<li>Defining the makerFunction in the global scope will usually ensure it is picklable (unless it has some wierd references).</li>
+</ul>
+</dd>
+</dl>
+<p>The params argument of the function is a user defined set of paramaters that will be provided at run time. This allows one JobTemplate object to be used with many Job objects.</p>
+<p>Sample code for running a single job:</p>
+<div class="highlight-py"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">deap</span> <span class="kn">import</span> <span class="n">tools</span>
+<span class="kn">from</span> <span class="nn">Batch</span> <span class="kn">import</span> <span class="n">job</span>
+
+<span class="c">#enable logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+<span class="c">#define the maker function</span>
+<span class="k">def</span> <span class="nf">someJobFunction</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&quot;The value is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">])</span>
+
+    <span class="n">logbook</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">Logbook</span><span class="p">()</span>
+    <span class="c"># ... populate logbook</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">logbook</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+
+<span class="n">template</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">JobTemplate</span><span class="p">(</span><span class="n">someJobFunction</span><span class="p">)</span>
+<span class="n">template</span><span class="o">.</span><span class="n">setDefaults</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">ajob</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+<span class="n">ajob</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="n">ajob2</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ajob2</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Yields the following output:</p>
+<div class="highlight-bash"><div class="highlight"><pre>The value is 0
+The value is 3
+</pre></div>
+</div>
+<p>Note that the default value that was set with JobTemplate.setDefaults() is overriden in the aJob2.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to DeapBatch&#8217;s documentation!</a></li>
+      <li>Next: <a href="runningManyJobs.html" title="next chapter">Running a Job</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/runningJob.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Damian Polan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/runningJob.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

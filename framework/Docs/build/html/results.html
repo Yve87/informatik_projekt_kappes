@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>results &mdash; DeapBatch 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="DeapBatch 1.0 documentation" href="index.html" />
+    <link rel="next" title="display" href="display.html" />
+    <link rel="prev" title="job" href="job.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-results">
+<span id="results"></span><h1>results<a class="headerlink" href="#module-results" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="results.DatabaseResults">
+<em class="property">class </em><code class="descclassname">results.</code><code class="descname">DatabaseResults</code><span class="sig-paren">(</span><em>host</em>, <em>user</em>, <em>password</em>, <em>database</em>, <em>table</em>, <em>port=None</em><span class="sig-paren">)</span><a class="headerlink" href="#results.DatabaseResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects to stored results in a specific database table.
+Warning: DatabaseResults.persistRun() will override any previous table with the same name</p>
+<dl class="method">
+<dt id="results.DatabaseResults.persistRun">
+<code class="descname">persistRun</code><span class="sig-paren">(</span><em>batchJob</em>, <em>callback=None</em><span class="sig-paren">)</span><a class="headerlink" href="#results.DatabaseResults.persistRun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the given BatchJob object and puts the results in the Database concurrently.
+Jobs must have unique job_ids (BatchJob does this by default).
+uses BatchJob.run_async_ind()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>batchJob</strong> &#8211; BatchJob object to run</li>
+<li><strong>callback</strong> &#8211; callback function called after every job is complete and added to the DB. format: callback(jobResult)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="results.DatabaseResults.select">
+<code class="descname">select</code><span class="sig-paren">(</span><em>*colNames</em>, <em>**specifics</em><span class="sig-paren">)</span><a class="headerlink" href="#results.DatabaseResults.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>DB selects specific columns and rows.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>colNames</strong> &#8211; List of strings containing the names of the columns that will be returned</li>
+<li><strong>specifics</strong> &#8211; Dict containing name-value pairs. When the select() is made, the rows that do not contain all the <a href="#id1"><span class="problematic" id="id2">**</span></a>specifics values will not be included.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd>filteredData = databaseHandler.select(&#8220;name&#8221;, &#8220;val&#8221;, result_gen=5, result_max=300)
+will return a data set containing the value and average items of rows where result_gen=5 and result_max=300
+Euivalent to the query: &#8220;SELECT name,val FROM aTable WHERE result_gen=5 AND result_max=300;&#8221;</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="results.Filter">
+<em class="property">class </em><code class="descclassname">results.</code><code class="descname">Filter</code><span class="sig-paren">(</span><em>data</em>, <em>*colNames</em>, <em>**specifics</em><span class="sig-paren">)</span><a class="headerlink" href="#results.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dict</span></code></p>
+<p>Filters data to usable row/columns. Can handle types Database(), Logbook(), JobResult[], Filter[], or a columnList (a dict or lists).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="results.LogBookTools">
+<em class="property">class </em><code class="descclassname">results.</code><code class="descname">LogBookTools</code><a class="headerlink" href="#results.LogBookTools" title="Permalink to this definition">¶</a></dt>
+<dd><p>Static class. Contains a set of tools for handling multiple logbooks.</p>
+<dl class="staticmethod">
+<dt id="results.LogBookTools.appendLogbookRecursive">
+<em class="property">static </em><code class="descname">appendLogbookRecursive</code><span class="sig-paren">(</span><em>toLogbook</em>, <em>fromLogbook</em><span class="sig-paren">)</span><a class="headerlink" href="#results.LogBookTools.appendLogbookRecursive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends fromLogbook&#8217;s data into toLogbook. Logbook formats must be the same</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="results.LogBookTools.averageLogbookValues">
+<em class="property">static </em><code class="descname">averageLogbookValues</code><span class="sig-paren">(</span><em>logbooks</em><span class="sig-paren">)</span><a class="headerlink" href="#results.LogBookTools.averageLogbookValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new logbook containing the average values of all the cells from all the given logbooks.</p>
+<p>Values which are confilicting (i.e cannot average two strings) will be set to the value of the last given logbook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logbooks</strong> &#8211; The list of Deap.tools.Logbooks to average</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="results.LogBookTools.combineLogbooks">
+<em class="property">static </em><code class="descname">combineLogbooks</code><span class="sig-paren">(</span><em>logbooks</em><span class="sig-paren">)</span><a class="headerlink" href="#results.LogBookTools.combineLogbooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Logbook containing the contents of both given Logbooks. Logbook structure should be identical</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="results.LogBookTools.createLogbookFrom">
+<em class="property">static </em><code class="descname">createLogbookFrom</code><span class="sig-paren">(</span><em>jobResult</em><span class="sig-paren">)</span><a class="headerlink" href="#results.LogBookTools.createLogbookFrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a logbook from the given jobResult object by appending the job info to each row in the logbook in jobResult.logbook</p>
+<p>Returns a new Deap.tools.Logbook instance</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="results.LogBookTools.createSuperLogbook">
+<em class="property">static </em><code class="descname">createSuperLogbook</code><span class="sig-paren">(</span><em>jobResults</em><span class="sig-paren">)</span><a class="headerlink" href="#results.LogBookTools.createSuperLogbook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="results.LogBookTools.logBookToListColumns">
+<em class="property">static </em><code class="descname">logBookToListColumns</code><span class="sig-paren">(</span><em>logbook</em>, <em>subName=None</em>, <em>processedData=None</em><span class="sig-paren">)</span><a class="headerlink" href="#results.LogBookTools.logBookToListColumns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursivly processes the logbook into easy to use column lists.</p>
+<p>Returns a dict with item key of the column names and values being a list.
+Chapters will be &#8216;pushed up&#8217; so that there is only one layer of dictionary (i.e no more dict within a dict). The names of the columns are a combination of the parent chapter names seperated by &#8216;_&#8217;.</p>
+<p>For Example,
+Calling LogBookTools.logBookToListColumns() with the following logbook:</p>
+<blockquote>
+<div><blockquote>
+<div>fitness</div></blockquote>
+</div></blockquote>
+<p>gen min  max  avg
+0   1100 1200 1150
+1   1105 1210 1153
+2   1101 1250 1156</p>
+<p>would return the following dictionary:</p>
+<dl class="docutils">
+<dt>{</dt>
+<dd>gen:[0,1,2],
+fitness_min:[1100,1105,1101],
+fitness_max:[1200,1210,1250],
+fitness_avg:[1150, 1153, 1156]</dd>
+</dl>
+<p>}</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="results.Util">
+<em class="property">class </em><code class="descclassname">results.</code><code class="descname">Util</code><a class="headerlink" href="#results.Util" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a set of tools for use with BatchJob logbook results.</p>
+<dl class="staticmethod">
+<dt id="results.Util.loadCSV">
+<em class="property">static </em><code class="descname">loadCSV</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="headerlink" href="#results.Util.loadCSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a CSV file into column list form. Refer to LogBookTools.logBookToListColumns().</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="results.Util.loadLogbook">
+<em class="property">static </em><code class="descname">loadLogbook</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="headerlink" href="#results.Util.loadLogbook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a pickled logbook object from the given filepath.</p>
+<p>returns the loaded Deap.tools.Logbook object</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="results.Util.saveCSV">
+<em class="property">static </em><code class="descname">saveCSV</code><span class="sig-paren">(</span><em>filePath</em>, <em>logbook</em><span class="sig-paren">)</span><a class="headerlink" href="#results.Util.saveCSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts and saves the given logbook as a CSV to the file path specified. 
+The Logbook is converted to a column list with LogBookTools.logBookToListColumns() and then saved. When loaded again, it will be loaded into column list form (logbook object will not be preserved).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filePath</strong> &#8211; File directory + name where to save the file.</li>
+<li><strong>logbook</strong> &#8211; the logbook to save</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="results.Util.saveLogbook">
+<em class="property">static </em><code class="descname">saveLogbook</code><span class="sig-paren">(</span><em>filePath</em>, <em>logbook</em><span class="sig-paren">)</span><a class="headerlink" href="#results.Util.saveLogbook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pickles and saves the given logbook to the file path specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filePath</strong> &#8211; File directory + name where to save the file.</li>
+<li><strong>logbook</strong> &#8211; the logbook to save</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="job.html" title="previous chapter">job</a></li>
+      <li>Next: <a href="display.html" title="next chapter">display</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/results.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Damian Polan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/results.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
