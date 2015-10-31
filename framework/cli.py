@@ -109,7 +109,9 @@ def demo2():
     logging.basicConfig(level=logging.DEBUG)
 
     template = job.JobTemplate(runGASimple)
-    template.setDefaults(indpb=0.8, tournsize=20, popSize=20, cxpb=0.5, mutpb=0.5, ngen=20, number_of_runs=1, verbose=False)
+    #template.setDefaults(indpb=0.8, tournsize=20, popSize=20, cxpb=0.5, mutpb=0.5, ngen=20, number_of_runs=1, verbose=False)
+    template.setDefaults(indpb=indpb, tournsize=tournsize, popSize=popsize, cxpb=cxpb, mutpb=mutpb, ngen=ngen, number_of_runs=number_of_runs, verbose=verbose)
+
 
     jobCreator = job.JobCreator()
     jobCreator.addRange('cxpb', start=0.0, end=1.0, stepSize=0.3)
@@ -127,7 +129,8 @@ def demo3():
     logging.basicConfig(level=logging.DEBUG)
 
     template = job.JobTemplate(runGASimple)
-    template.setDefaults(indpb=0.8, tournsize=20, popSize=20, cxpb=0.5, mutpb=0.5, ngen=20, number_of_runs=2, verbose=False)
+    #template.setDefaults(indpb=0.8, tournsize=20, popSize=20, cxpb=0.5, mutpb=0.5, ngen=20, number_of_runs=2, verbose=False)
+    template.setDefaults(indpb=indpb, tournsize=tournsize, popSize=popsize, cxpb=cxpb, mutpb=mutpb, ngen=ngen, number_of_runs=number_of_runs, verbose=verbose)
 
     ajob = job.Job(template)
     jobResult = ajob.run()
@@ -151,7 +154,8 @@ def demo5():
     logging.basicConfig(level=logging.DEBUG)
 
     template = job.JobTemplate(runGASimple)
-    template.setDefaults(indpb=0.8, tournsize=20, popSize=20, cxpb=0.5, mutpb=0.5, ngen=10, number_of_runs=1, verbose=False)
+    #template.setDefaults(indpb=0.8, tournsize=20, popSize=20, cxpb=0.5, mutpb=0.5, ngen=10, number_of_runs=1, verbose=False)
+    template.setDefaults(indpb=indpb, tournsize=tournsize, popSize=popsize, cxpb=cxpb, mutpb=mutpb, ngen=ngen, number_of_runs=number_of_runs, verbose=verbose)
 
     jobCreator = job.JobCreator()
     jobCreator.addRange('cxpb', start=0.0, end=1.0, stepSize=0.1)
@@ -195,10 +199,40 @@ if (__name__ == "__main__"):
 
 
     elif(demoNumber == "2"):
-        demo2()
+        indpb = float(raw_input("Probability for each attribute to be mutated (float): "))
+        tournsize = long(raw_input("Number of individuals participating in each tournament: "))
+        popSize = long(raw_input("Population size: "))
+        cxpb = float(raw_input("Probability that an offspring is produced by crossover: "))
+        mutpb = float (raw_input("Probability that an offspring is produced by mutation: "))
+        ngen = long(raw_input("Number of generations: "))
+        number_of_runs = long(raw_input("Number of Runs: "))
+        verbosee = bool(raw_input("Verbose output (Boolean): "))
+
+        demo2(indpb,tournsize,popSize,cxpb,mutpb,ngen,number_of_runs,verbosee)
+
     elif(demoNumber == "3"):
-        demo3()
+        indpb = float(raw_input("Probability for each attribute to be mutated (float): "))
+        tournsize = long(raw_input("Number of individuals participating in each tournament: "))
+        popSize = long(raw_input("Population size: "))
+        cxpb = float(raw_input("Probability that an offspring is produced by crossover: "))
+        mutpb = float (raw_input("Probability that an offspring is produced by mutation: "))
+        ngen = long(raw_input("Number of generations: "))
+        number_of_runs = long(raw_input("Number of Runs: "))
+        verbosee = bool(raw_input("Verbose output (Boolean): "))
+
+        demo3(indpb,tournsize,popSize,cxpb,mutpb,ngen,number_of_runs,verbosee)
+
     elif(demoNumber == "4"):
         demo4()
+
     elif(demoNumber == "5"):
-        demo5()
+        indpb = float(raw_input("Probability for each attribute to be mutated (float): "))
+        tournsize = long(raw_input("Number of individuals participating in each tournament: "))
+        popSize = long(raw_input("Population size: "))
+        cxpb = float(raw_input("Probability that an offspring is produced by crossover: "))
+        mutpb = float (raw_input("Probability that an offspring is produced by mutation: "))
+        ngen = long(raw_input("Number of generations: "))
+        number_of_runs = long(raw_input("Number of Runs: "))
+        verbosee = bool(raw_input("Verbose output (Boolean): "))
+
+        demo5(indpb,tournsize,popSize,cxpb,mutpb,ngen,number_of_runs,verbosee)
