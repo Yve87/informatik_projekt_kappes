@@ -116,6 +116,7 @@ def demo2(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose)
     jobCreator = job.JobCreator()
     jobCreator.addRange('cxpb', start=0.0, end=1.0, stepSize=0.3)
     jobCreator.addRange('mutpb', start=0.0, end=1.0, stepSize=0.3)
+    jobCreator.addSpecific('mutpb',23,123,123,13,13)
 
     # all other params will take defaults
     jobs = jobCreator.generateJobs(template)
@@ -247,7 +248,7 @@ if (__name__ == "__main__"):
             with open('config.json', 'w') as f:
                     json.dump(config, f)
 
-        elif(arg1 == "1"):
+        elif(arg1 == "-singleJob"):
             demo1(float(sys.argv[1:][1]),
             long(sys.argv[1:][2]),
             long(sys.argv[1:][3]),
@@ -258,7 +259,7 @@ if (__name__ == "__main__"):
             bool(sys.argv[1:][8]))
 
 
-        elif(arg1 == "2"):
+        elif(arg1 == "-batchJob"):
                     demo2(float(sys.argv[1:][1]),
                     long(sys.argv[1:][2]),
                     long(sys.argv[1:][3]),
@@ -268,7 +269,7 @@ if (__name__ == "__main__"):
                     long(sys.argv[1:][7]),
                     bool(sys.argv[1:][8]))
 
-        elif(arg1 == "3"):
+        elif(arg1 == "-savePickle"):
                     demo3(float(sys.argv[1:][1]),
                     long(sys.argv[1:][2]),
                     long(sys.argv[1:][3]),
@@ -278,10 +279,10 @@ if (__name__ == "__main__"):
                     long(sys.argv[1:][7]),
                     bool(sys.argv[1:][8]))
 
-        elif(arg1 == "4"):
+        elif(arg1 == "-load"):
             demo4()
 
-        elif(arg1 == "5"):
+        elif(arg1 == "-runWithDBc"):
 
                 if(os.path.isfile("config.json")):
                     with open('config.json', 'r') as f:
@@ -302,3 +303,4 @@ if (__name__ == "__main__"):
                         bool(sys.argv[1:][8]))
                 else:
                     print("No config file. Run -cfgDB first")
+#closures
