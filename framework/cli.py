@@ -179,66 +179,87 @@ import json
 import os.path
 
 if (__name__ == "__main__"):
-    demoNumber = sys.argv[1:][0]
-    if (demoNumber== "-h"):
-        print("help")
+    #sys.argv[1:] returns a list (array) of arguments
 
-    elif(demoNumber == "-cfgDB"):
-        DBUSER = raw_input("DB User: ")
-        DBPASS = raw_input("DB User Password: ")
-        DBHOST = raw_input("DB Host: ")
-        DB = raw_input("DB Name: ")
-        TABLE = raw_input("Table name: ")
-        config = {'DBUSER': DBUSER, 'DBPASS': DBPASS,'DBHOST': DBHOST,'DB': DB,'TABLE': TABLE}
-        with open('config.json', 'w') as f:
-                json.dump(config, f)
+    if not sys.argv[1:]:
+        print("Run with -h param for help")
+    else:
+        arg1 = sys.argv[1:][0]
+        if (arg1== "-h"):
+            try:
+                if sys.argv[1:][1] == "-singleJob":
+                      print("indpb = Probability for each attribute to be mutated")
+                      print("tournsize = Number of individuals participating in each tournament")
+                      print("popSize = Population size")
+                      print("cxpb = Probability that an offspring is produced by crossover")
+                      print("mutpb = Probability that an offspring is produced by mutation")
+                      print("ngen = Number of generations")
+                      print("number_of_runs = Number of Runs")
+                      print("verbosee = Verbose output (Boolean)")
+                elif sys.argv[1:][1] == "-batchJob":
+                      print("indpb = Probability for each attribute to be mutated")
+                      print("tournsize = Number of individuals participating in each tournament")
+                      print("popSize = Population size")
+                      print("cxpb = Probability that an offspring is produced by crossover")
+                      print("mutpb = Probability that an offspring is produced by mutation")
+                      print("ngen = Number of generations")
+                      print("number_of_runs = Number of Runs")
+                      print("verbosee = Verbose output (Boolean)")
+                elif sys.argv[1:][1] == "-savePickle":
+                    print("indpb = Probability for each attribute to be mutated")
+                    print("tournsize = Number of individuals participating in each tournament")
+                    print("popSize = Population size")
+                    print("cxpb = Probability that an offspring is produced by crossover")
+                    print("mutpb = Probability that an offspring is produced by mutation")
+                    print("ngen = Number of generations")
+                    print("number_of_runs = Number of Runs")
+                    print("verbosee = Verbose output (Boolean)")
+                elif sys.argv[1:][1] == "-load":
+                    print("no extra params")
+                elif sys.argv[1:][1] == "-runWithDB":
+                    print("indpb = Probability for each attribute to be mutated")
+                    print("tournsize = Number of individuals participating in each tournament")
+                    print("popSize = Population size")
+                    print("cxpb = Probability that an offspring is produced by crossover")
+                    print("mutpb = Probability that an offspring is produced by mutation")
+                    print("ngen = Number of generations")
+                    print("number_of_runs = Number of Runs")
+                    print("verbosee = Verbose output (Boolean)")
+                elif sys.argv[1:][1] == "-cfgDB":
+                    print("no extra params")
+                else:
+                    raise IndexError()
+            except:
+                print("-h -X:")
+                print("-singleJob: single GA job")
+                print("-batchJob: Run batch job")
+                print("-savePickle: save results to pickle")
+                print("-load: load saved results")
+                print("-runWithDB: running ga with database")
+                print("-cfgDB: set db config")
+        elif(arg1 == "-cfgDB"):
+            DBUSER = raw_input("DB User: ")
+            DBPASS = raw_input("DB User Password: ")
+            DBHOST = raw_input("DB Host: ")
+            DB = raw_input("DB Name: ")
+            TABLE = raw_input("Table name: ")
+            config = {'DBUSER': DBUSER, 'DBPASS': DBPASS,'DBHOST': DBHOST,'DB': DB,'TABLE': TABLE}
+            with open('config.json', 'w') as f:
+                    json.dump(config, f)
 
-    elif(demoNumber == "1"):
-        demo1(float(sys.argv[1:][1]),
-        long(sys.argv[1:][2]),
-        long(sys.argv[1:][3]),
-        float(sys.argv[1:][4]),
-        float(sys.argv[1:][5]),
-        long(sys.argv[1:][6]),
-        long(sys.argv[1:][7]),
-        bool(sys.argv[1:][8]))
+        elif(arg1 == "1"):
+            demo1(float(sys.argv[1:][1]),
+            long(sys.argv[1:][2]),
+            long(sys.argv[1:][3]),
+            float(sys.argv[1:][4]),
+            float(sys.argv[1:][5]),
+            long(sys.argv[1:][6]),
+            long(sys.argv[1:][7]),
+            bool(sys.argv[1:][8]))
 
 
-    elif(demoNumber == "2"):
-                demo2(float(sys.argv[1:][1]),
-                long(sys.argv[1:][2]),
-                long(sys.argv[1:][3]),
-                float(sys.argv[1:][4]),
-                float(sys.argv[1:][5]),
-                long(sys.argv[1:][6]),
-                long(sys.argv[1:][7]),
-                bool(sys.argv[1:][8]))
-
-    elif(demoNumber == "3"):
-                demo3(float(sys.argv[1:][1]),
-                long(sys.argv[1:][2]),
-                long(sys.argv[1:][3]),
-                float(sys.argv[1:][4]),
-                float(sys.argv[1:][5]),
-                long(sys.argv[1:][6]),
-                long(sys.argv[1:][7]),
-                bool(sys.argv[1:][8]))
-
-    elif(demoNumber == "4"):
-        demo4()
-
-    elif(demoNumber == "5"):
-
-            if(os.path.isfile("config.json")):
-                with open('config.json', 'r') as f:
-                    config = json.load(f)
-                    demo5(
-                    config["DBUSER"],
-                    config["DBPASS"],
-                    config["DBHOST"],
-                    config["DB"],
-                    config["TABLE"],
-                    float(sys.argv[1:][1]),
+        elif(arg1 == "2"):
+                    demo2(float(sys.argv[1:][1]),
                     long(sys.argv[1:][2]),
                     long(sys.argv[1:][3]),
                     float(sys.argv[1:][4]),
@@ -246,5 +267,38 @@ if (__name__ == "__main__"):
                     long(sys.argv[1:][6]),
                     long(sys.argv[1:][7]),
                     bool(sys.argv[1:][8]))
-            else:
-                print("No config file. Run -cfgDB first")
+
+        elif(arg1 == "3"):
+                    demo3(float(sys.argv[1:][1]),
+                    long(sys.argv[1:][2]),
+                    long(sys.argv[1:][3]),
+                    float(sys.argv[1:][4]),
+                    float(sys.argv[1:][5]),
+                    long(sys.argv[1:][6]),
+                    long(sys.argv[1:][7]),
+                    bool(sys.argv[1:][8]))
+
+        elif(arg1 == "4"):
+            demo4()
+
+        elif(arg1 == "5"):
+
+                if(os.path.isfile("config.json")):
+                    with open('config.json', 'r') as f:
+                        config = json.load(f)
+                        demo5(
+                        config["DBUSER"],
+                        config["DBPASS"],
+                        config["DBHOST"],
+                        config["DB"],
+                        config["TABLE"],
+                        float(sys.argv[1:][1]),
+                        long(sys.argv[1:][2]),
+                        long(sys.argv[1:][3]),
+                        float(sys.argv[1:][4]),
+                        float(sys.argv[1:][5]),
+                        long(sys.argv[1:][6]),
+                        long(sys.argv[1:][7]),
+                        bool(sys.argv[1:][8]))
+                else:
+                    print("No config file. Run -cfgDB first")
