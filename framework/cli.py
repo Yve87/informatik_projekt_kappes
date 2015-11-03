@@ -149,7 +149,7 @@ def demo4():
 
     pass
 
-def demo5(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose):
+def demo5(DBUSER, DBPASS, DBHOST, DB, TABLE, indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose):
     # Running a GA with Database
     logging.basicConfig(level=logging.DEBUG)
 
@@ -165,13 +165,6 @@ def demo5(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose)
 
     batchJob = job.BatchJob(jobs, 5)
 
-    # Change database entries
-    DBUSER = 'changeme'
-    DBPASS = 'changeme'
-    DBHOST = 'changeme'
-    DB = 'changeme'
-    TABLE = 'changeme'
-
     dbh = results.DatabaseResults(DBHOST, DBUSER, DBPASS, DB, TABLE)
 
     def update(jr):
@@ -183,6 +176,7 @@ def demo5(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose)
 
 
 import json
+import os.path
 
 if (__name__ == "__main__"):
     demoNumber = sys.argv[1:][0]
@@ -234,11 +228,23 @@ if (__name__ == "__main__"):
         demo4()
 
     elif(demoNumber == "5"):
-                demo5(float(sys.argv[1:][1]),
-                long(sys.argv[1:][2]),
-                long(sys.argv[1:][3]),
-                float(sys.argv[1:][4]),
-                float(sys.argv[1:][5]),
-                long(sys.argv[1:][6]),
-                long(sys.argv[1:][7]),
-                bool(sys.argv[1:][8]))
+
+            if(os.path.isfile("config.json")):
+                with open('config.json', 'r') as f:
+                    config = json.load(f)
+                    demo5(
+                    config["DBUSER"],
+                    config["DBPASS"],
+                    config["DBHOST"],
+                    config["DB"],
+                    config["TABLE"],
+                    float(sys.argv[1:][1]),
+                    long(sys.argv[1:][2]),
+                    long(sys.argv[1:][3]),
+                    float(sys.argv[1:][4]),
+                    float(sys.argv[1:][5]),
+                    long(sys.argv[1:][6]),
+                    long(sys.argv[1:][7]),
+                    bool(sys.argv[1:][8]))
+            else:
+                print("No config file. Run -cfgDB first")
