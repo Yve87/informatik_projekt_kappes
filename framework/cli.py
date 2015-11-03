@@ -181,24 +181,25 @@ def demo5(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose)
 
     pass
 
+
+import json
+
 if (__name__ == "__main__"):
     demoNumber = sys.argv[1:][0]
-    arg1 = sys.argv[1:][1]
-    print("Demo Nr: %s "%arg1)
     if (demoNumber== "-h"):
         print("help")
-    elif(demoNumber == "1"):
-        #indpb=0.8, tournsize=20, popSize=20, cxpb=0.5, mutpb=0.5, ngen=20, number_of_runs=1, verbose=True)
-        #indpb = float(raw_input("Probability for each attribute to be mutated (float): "))
-        #tournsize = long(raw_input("Number of individuals participating in each tournament: "))
-        #popSize = long(raw_input("Population size: "))
-        #cxpb = float(raw_input("Probability that an offspring is produced by crossover: "))
-        #mutpb = float (raw_input("Probability that an offspring is produced by mutation: "))
-        #ngen = long(raw_input("Number of generations: "))
-        #number_of_runs = long(raw_input("Number of Runs: "))
-        #verbosee = bool(raw_input("Verbose output (Boolean): "))
 
-        #demo1(indpb,tournsize,popSize,cxpb,mutpb,ngen,number_of_runs,verbosee)
+    elif(demoNumber == "-cfgDB"):
+        DBUSER = raw_input("DB User: ")
+        DBPASS = raw_input("DB User Password: ")
+        DBHOST = raw_input("DB Host: ")
+        DB = raw_input("DB Name: ")
+        TABLE = raw_input("Table name: ")
+        config = {'DBUSER': DBUSER, 'DBPASS': DBPASS,'DBHOST': DBHOST,'DB': DB,'TABLE': TABLE}
+        with open('config.json', 'w') as f:
+                json.dump(config, f)
+
+    elif(demoNumber == "1"):
         demo1(float(sys.argv[1:][1]),
         long(sys.argv[1:][2]),
         long(sys.argv[1:][3]),
@@ -218,16 +219,6 @@ if (__name__ == "__main__"):
                 long(sys.argv[1:][6]),
                 long(sys.argv[1:][7]),
                 bool(sys.argv[1:][8]))
-        #indpb = float(raw_input("Probability for each attribute to be mutated (float): "))
-        #tournsize = long(raw_input("Number of individuals participating in each tournament: "))
-        #popSize = long(raw_input("Population size: "))
-        #cxpb = float(raw_input("Probability that an offspring is produced by crossover: "))
-        #mutpb = float (raw_input("Probability that an offspring is produced by mutation: "))
-        #ngen = long(raw_input("Number of generations: "))
-        #number_of_runs = long(raw_input("Number of Runs: "))
-        #verbosee = bool(raw_input("Verbose output (Boolean): "))
-
-        #demo2(indpb,tournsize,popSize,cxpb,mutpb,ngen,number_of_runs,verbosee)
 
     elif(demoNumber == "3"):
                 demo3(float(sys.argv[1:][1]),
@@ -238,16 +229,6 @@ if (__name__ == "__main__"):
                 long(sys.argv[1:][6]),
                 long(sys.argv[1:][7]),
                 bool(sys.argv[1:][8]))
-        #indpb = float(raw_input("Probability for each attribute to be mutated (float): "))
-        #tournsize = long(raw_input("Number of individuals participating in each tournament: "))
-        #popSize = long(raw_input("Population size: "))
-        #cxpb = float(raw_input("Probability that an offspring is produced by crossover: "))
-        #mutpb = float (raw_input("Probability that an offspring is produced by mutation: "))
-        #ngen = long(raw_input("Number of generations: "))
-        #number_of_runs = long(raw_input("Number of Runs: "))
-        #verbosee = bool(raw_input("Verbose output (Boolean): "))
-
-        #demo3(indpb,tournsize,popSize,cxpb,mutpb,ngen,number_of_runs,verbosee)
 
     elif(demoNumber == "4"):
         demo4()
@@ -261,13 +242,3 @@ if (__name__ == "__main__"):
                 long(sys.argv[1:][6]),
                 long(sys.argv[1:][7]),
                 bool(sys.argv[1:][8]))
-        #indpb = float(raw_input("Probability for each attribute to be mutated (float): "))
-        #tournsize = long(raw_input("Number of individuals participating in each tournament: "))
-        #popSize = long(raw_input("Population size: "))
-        #cxpb = float(raw_input("Probability that an offspring is produced by crossover: "))
-        #mutpb = float (raw_input("Probability that an offspring is produced by mutation: "))
-        #ngen = long(raw_input("Number of generations: "))
-        #number_of_runs = long(raw_input("Number of Runs: "))
-        #verbosee = bool(raw_input("Verbose output (Boolean): "))
-
-        #demo5(indpb,tournsize,popSize,cxpb,mutpb,ngen,number_of_runs,verbosee)
