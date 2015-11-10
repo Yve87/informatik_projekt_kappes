@@ -104,7 +104,7 @@ def demo1(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose)
 
     pass
 
-def demo2(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose):
+def demo2(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose,cxpb_start,cxpb_end, cxpb_stepSize, mutpb_start, mutpb_end, mutpb_stepSize, specific_type, specific_param1,specific_param2,specific_param3,specific_param4,specific_param5):
     # RUN BATCH JOB
     logging.basicConfig(level=logging.DEBUG)
 
@@ -114,9 +114,9 @@ def demo2(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose)
 
 
     jobCreator = job.JobCreator()
-    jobCreator.addRange('cxpb', start=0.0, end=1.0, stepSize=0.3)
-    jobCreator.addRange('mutpb', start=0.0, end=1.0, stepSize=0.3)
-    jobCreator.addSpecific('mutpb',23,123,123,13,13)
+    jobCreator.addRange('cxpb', start=cxpb_start, end=cxpb_end, stepSize=cxpb_stepSize)
+    jobCreator.addRange('mutpb', start=mutpb_start, end=mutpb_end, stepSize=mutpb_stepSize)
+    jobCreator.addSpecific(specific_type,specific_param1,specific_param2,specific_param3,specific_param4,specific_param5)
 
     # all other params will take defaults
     jobs = jobCreator.generateJobs(template)
@@ -125,7 +125,7 @@ def demo2(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose)
     results = batchJob.run()
     pass
 
-def demo3(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose):
+def demo3(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose, logbook_lgb_filename, logbook_csv_filename):
     # SAVE RESULT TO PICKLE
     logging.basicConfig(level=logging.DEBUG)
 
@@ -143,14 +143,14 @@ def demo3(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose)
 
     pass
 
-def demo4():
+def demo4(filename):
     # Load saved results
 
-    print util.loadLogbook("demoLogbook.lgb")
+    print util.loadLogbook(filename)
 
     pass
 
-def demo5(DBUSER, DBPASS, DBHOST, DB, TABLE, indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose):
+def demo5(DBUSER, DBPASS, DBHOST, DB, TABLE, indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose, cxpb_start,cxpb_end, cxpb_stepSize, mutpb_start, mutpb_end, mutpb_stepSize, batch_amount):
     # Running a GA with Database
     logging.basicConfig(level=logging.DEBUG)
 
@@ -159,12 +159,12 @@ def demo5(DBUSER, DBPASS, DBHOST, DB, TABLE, indpb, tournsize, popsize, cxpb, mu
     template.setDefaults(indpb=indpb, tournsize=tournsize, popSize=popsize, cxpb=cxpb, mutpb=mutpb, ngen=ngen, number_of_runs=number_of_runs, verbose=verbose)
 
     jobCreator = job.JobCreator()
-    jobCreator.addRange('cxpb', start=0.0, end=1.0, stepSize=0.1)
-    jobCreator.addRange('mutpb', start=0.0, end=1.0, stepSize=0.1)
+    jobCreator.addRange('cxpb', start=cxpb_start, end=cxpb_end, stepSize=cxpb_stepSize)
+    jobCreator.addRange('mutpb', start=mutpb_start, end=mutpb_end, stepSize=mutpb_stepSize)
     # all other params will take defaults
     jobs = jobCreator.generateJobs(template)
 
-    batchJob = job.BatchJob(jobs, 5)
+    batchJob = job.BatchJob(jobs, batch_amount)
 
     dbh = results.DatabaseResults(DBHOST, DBUSER, DBPASS, DB, TABLE)
 
@@ -178,10 +178,11 @@ def demo5(DBUSER, DBPASS, DBHOST, DB, TABLE, indpb, tournsize, popsize, cxpb, mu
 
 import json
 import os.path
+import getopt;
 
 if (__name__ == "__main__"):
     #sys.argv[1:] returns a list (array) of arguments
-
+    #getopt lib?
     if not sys.argv[1:]:
         print("Run with -h param for help")
     else:
@@ -249,17 +250,23 @@ if (__name__ == "__main__"):
                     json.dump(config, f)
 
         elif(arg1 == "-singleJob"):
-            demo1(float(sys.argv[1:][1]),
-            long(sys.argv[1:][2]),
-            long(sys.argv[1:][3]),
-            float(sys.argv[1:][4]),
-            float(sys.argv[1:][5]),
-            long(sys.argv[1:][6]),
-            long(sys.argv[1:][7]),
-            bool(sys.argv[1:][8]))
+            if(len(sys.argv[1:]) < 8):
+                print("Missing Parameter. Required input: -singleJob indpd tournsize popsize cxpb mutpb ngen number_of_runs verbose(boolean)")
+            else:
+                demo1(float(sys.argv[1:][1]),
+                long(sys.argv[1:][2]),
+                long(sys.argv[1:][3]),
+                float(sys.argv[1:][4]),
+                float(sys.argv[1:][5]),
+                long(sys.argv[1:][6]),
+                long(sys.argv[1:][7]),
+                bool(sys.argv[1:][8]))
 
 
         elif(arg1 == "-batchJob"):
+            if(len(sys.argv[1:])<8):
+                print("Missing Parameter. Required input: -batchJob indpd tournsize popsize cxpb mutpb ngen number_of_runs verbose(boolean) cxpb_start cxpb_end cxpb_stepSize mutpb_start mutpb_end mutpb_stepSize specific_type specific_param1 specific_param2 specific_param3 specific_param4 specific_param5")
+            else:
                     demo2(float(sys.argv[1:][1]),
                     long(sys.argv[1:][2]),
                     long(sys.argv[1:][3]),
@@ -267,9 +274,24 @@ if (__name__ == "__main__"):
                     float(sys.argv[1:][5]),
                     long(sys.argv[1:][6]),
                     long(sys.argv[1:][7]),
-                    bool(sys.argv[1:][8]))
+                    bool(sys.argv[1:][8]),
+                    long(sys.argv[1:][9]),
+                    long(sys.argv[1:][10]),
+                    long(sys.argv[1:][11]),
+                    long(sys.argv[1:][12]),
+                    long(sys.argv[1:][13]),
+                    long(sys.argv[1:][14]),
+                    sys.argv[1:][15],
+                    long(sys.argv[1:][16]),
+                    long(sys.argv[1:][17]),
+                    long(sys.argv[1:][18]),
+                    long(sys.argv[1:][19]),
+                    long(sys.argv[1:][20]))
 
         elif(arg1 == "-savePickle"):
+            if(len(sys.argv[1:])<8):
+                print("Missing Parameter. Required input: -savePickle indpd tournsize popsize cxpb mutpb ngen number_of_runs verbose(boolean) logbook_filename(.lgb file) logbook_filename(.csv file)")
+            else:
                     demo3(float(sys.argv[1:][1]),
                     long(sys.argv[1:][2]),
                     long(sys.argv[1:][3]),
@@ -277,13 +299,20 @@ if (__name__ == "__main__"):
                     float(sys.argv[1:][5]),
                     long(sys.argv[1:][6]),
                     long(sys.argv[1:][7]),
-                    bool(sys.argv[1:][8]))
+                    bool(sys.argv[1:][8]),
+                    sys.argv[1:][9],
+                    sys.argv[1:][10])
 
         elif(arg1 == "-load"):
-            demo4()
+            if(len(sys.argv[1:])<2):
+                print("Missing Parameter. Required input: -load filename")
+            else:
+                demo4(sys.argv[1:][1])
 
-        elif(arg1 == "-runWithDBc"):
-
+        elif(arg1 == "-runWithDB"):
+            if(len(sys.argv[1:])<8):
+                print("Missing Parameter. Required input: -withWithDB indpd tournsize popsize cxpb mutpb ngen number_of_runs verbose(boolean)")
+            else:
                 if(os.path.isfile("config.json")):
                     with open('config.json', 'r') as f:
                         config = json.load(f)
