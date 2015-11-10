@@ -114,6 +114,7 @@ def demo2(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose,
 
 
     jobCreator = job.JobCreator()
+    #range OR specific
     jobCreator.addRange('cxpb', start=cxpb_start, end=cxpb_end, stepSize=cxpb_stepSize)
     jobCreator.addRange('mutpb', start=mutpb_start, end=mutpb_end, stepSize=mutpb_stepSize)
     jobCreator.addSpecific(specific_type,specific_param1,specific_param2,specific_param3,specific_param4,specific_param5)
@@ -138,8 +139,8 @@ def demo3(indpb, tournsize, popsize, cxpb, mutpb, ngen, number_of_runs, verbose,
 
     print jobResult.logbook
 
-    util.saveLogbook("demoLogbook.lgb", results.LogBookTools.createLogbookFrom(jobResult))
-    util.saveCSV("demoLogbook.csv", jobResult.logbook)
+    util.saveLogbook(logbook_lgb_filename, results.LogBookTools.createLogbookFrom(jobResult))
+    util.saveCSV(logbook_csv_filename, jobResult.logbook)
 
     pass
 
@@ -182,7 +183,7 @@ import getopt;
 
 if (__name__ == "__main__"):
     #sys.argv[1:] returns a list (array) of arguments
-    #getopt lib?
+
     if not sys.argv[1:]:
         print("Run with -h param for help")
     else:
